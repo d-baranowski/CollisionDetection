@@ -8,6 +8,10 @@ Shape::Shape(int x, int y, int w, int h)
 	state[3] = w;
 }
 
+Shape::~Shape()
+{
+}
+
 int Shape::getXPos() const
 {
 	return state[0];
@@ -42,4 +46,9 @@ void Shape::moveOnXandY(int x, int y)
 {
 	Shape::moveOnXBy(x);
 	Shape::moveOnYBy(y);
+}
+
+bool Shape::isOverlapingWith(Shape shape)
+{
+	return false;
 }

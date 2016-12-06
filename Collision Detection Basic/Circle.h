@@ -8,10 +8,6 @@ public:
 	Circle(int x, int y, int r);
 	int getRadious() const;
 
-	bool isColidingWith(Circle circle) const;
+	bool isOverlapingWith(Shape circleOrSquare) override;
 
-private:
-	int r;
 };
-
-bool areColliding(Circle circle, Rectangle rectangle);

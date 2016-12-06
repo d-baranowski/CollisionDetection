@@ -5,6 +5,6 @@ class Rectangle : public Shape
 public:
 	Rectangle();
 	Rectangle(int x, int y, int w, int h);
-	bool isOverlapingWith(Rectangle rectangle) const;
+	bool isOverlapingWith(Shape rectangle) override;
 };
 
