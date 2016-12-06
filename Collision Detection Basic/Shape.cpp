@@ -1,19 +1,31 @@
 #include "Shape.h"
 
-Shape::Shape(int x, int y)
+Shape::Shape(int x, int y, int w, int h)
 {
-	this->state[0] = x;
-	this->state[1] = y;
+	state[0] = x;
+	state[1] = y;
+	state[2] = h;
+	state[3] = w;
 }
 
 int Shape::getXPos() const
 {
-	return Shape::state[0];
+	return state[0];
 }
 
 int Shape::getYPos() const
 {
-	return Shape::state[1];
+	return state[1];
+}
+
+int Shape::getHeight() const
+{
+	return state[2];
+}
+
+int Shape::getWidth() const
+{
+	return state[3];
 }
 
 void Shape::moveOnXBy(int num)
