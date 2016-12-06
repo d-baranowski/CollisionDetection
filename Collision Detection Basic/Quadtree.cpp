@@ -11,6 +11,10 @@ Quadtree::Quadtree(int level, Rectangle bounds)
 
 Quadtree::~Quadtree()
 {
+	for (int i = 0; i < 4; ++i)
+	{
+		delete nodes[i];
+	}
 }
 
 void Quadtree::clear()
@@ -21,7 +25,7 @@ void Quadtree::clear()
 	{
 		if (nodes[i] != nullptr)
 		{
-			(*nodes[i])->clear();
+			(nodes[i])->clear();
 			nodes[i] = nullptr;
 		}
 	}
@@ -33,7 +37,7 @@ void Quadtree::insert(Shape* shape)
 		int index = getIndex(shape);
 
 		if (index != -1) {
-			(*nodes[index])->insert(shape);
+			(nodes[index])->insert(shape);
 
 			return;
 		}
@@ -50,9 +54,9 @@ void Quadtree::insert(Shape* shape)
 		while (i < objects.size()) {
 			int index = getIndex(objects.at(i));
 			if (index != -1) {
-				(*nodes[index])->insert(objects.at(i));
+				(nodes[index])->insert(objects.at(i));
 				//objects.erase(i);
-				objects.erase(objects.begin() + i, objects.begin() + i);
+				objects.erase(objects.begin() + i);
 			}
 			else {
 				i++;
@@ -66,11 +70,23 @@ void Quadtree::retrieve(vector<Shape*>& returnObjects, Shape* shape)
 	const int index = getIndex(shape);
 	if (index != -1 && nodes[0] != nullptr)
 	{
-		(*nodes[index])->retrieve(returnObjects, shape);
+		(nodes[index])->retrieve(returnObjects, shape);
 	}
 
 	//Add all of objects of this node to the list.
-	copy(objects.begin(), objects.end(), back_inserter(returnObjects));
+	for (int i = 0; i < objects.size(); i++)
+	{
+		//Can't collide with itself
+		if (objects[i] != shape)
+		{
+			returnObjects.push_back(objects[i]);
+		}
+	}
+}
+
+bool Quadtree::hasBeenSplit() const
+{
+	return nodes[0] != nullptr;
 }
 
 void Quadtree::split()
@@ -78,10 +94,10 @@ void Quadtree::split()
 	const int subWidth = bounds.getWidth() / 2;
 	const int subHeight = bounds.getHeight() / 2;
 	
-	*nodes[0] = new Quadtree(level + 1, Rectangle(bounds.getXPos() + subWidth, bounds.getYPos(), subWidth, subHeight));
-	*nodes[1] = new Quadtree(level + 1, Rectangle(bounds.getXPos(), bounds.getYPos(), subWidth, subHeight));
-	*nodes[2] = new Quadtree(level + 1, Rectangle(bounds.getXPos(), bounds.getYPos() + subHeight, subWidth, subHeight));
-	*nodes[3] = new Quadtree(level + 1, Rectangle(bounds.getXPos() + subWidth, bounds.getYPos() + subHeight, subWidth, subHeight));
+	nodes[0] = new Quadtree(level + 1, Rectangle(bounds.getXPos() + subWidth, bounds.getYPos(), subWidth, subHeight));
+	nodes[1] = new Quadtree(level + 1, Rectangle(bounds.getXPos(), bounds.getYPos(), subWidth, subHeight));
+	nodes[2] = new Quadtree(level + 1, Rectangle(bounds.getXPos(), bounds.getYPos() + subHeight, subWidth, subHeight));
+	nodes[3] = new Quadtree(level + 1, Rectangle(bounds.getXPos() + subWidth, bounds.getYPos() + subHeight, subWidth, subHeight));
 }
 
 /**

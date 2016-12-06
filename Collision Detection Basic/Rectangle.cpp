@@ -6,7 +6,6 @@ Rectangle::Rectangle() : Shape(0,0,0,0)
 Rectangle::Rectangle(int x, int y, int w, int h) : Shape(x, y,w,h)
 {}
 
-
 //I could remove less or equals and use less but that wouldn't be able to tell if object with same dimensions and possition are overlaping
 bool Rectangle::isOverlapingWith(Rectangle rectangle)  const
 {

@@ -3,7 +3,6 @@
 #include "Rectangle.h"
 
 #include <vector>
-#include <iterator>
 
 using namespace std;
 
@@ -16,6 +15,9 @@ public:
 	void insert(Shape* shape);
 	void retrieve(vector<Shape*>& returnObjects, Shape* shape);
 
+	//Consider deleating this debug method.
+	bool hasBeenSplit() const;
+
 private:
 	const int MAX_OBJECTS = 10; //How many objects can I hold before it splits
 	const int MAX_LEVELS = 5; //Deepest level subnode
@@ -23,7 +25,7 @@ private:
 	int level; //Starts with 0 and increments by 1
 	vector<Shape*> objects;
 	Rectangle bounds;
-	Quadtree** nodes[4];
+	Quadtree* nodes[4];
 
 	void split();
 

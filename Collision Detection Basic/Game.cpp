@@ -1,40 +1,68 @@
-#include "Shape.h"
-#include "Rectangle.h"
-#include "Assertions.h"
-
 #include <iostream>
+#include "Quadtree.h"
 #include "Circle.h"
+
 using namespace std;
 
-int test()
+Shape * getRandomShapeWithinBounds(Rectangle bounds)
 {
-	Assertions::assertTrue(Rectangle(170, 139, 177, 130)
-		.isOverlapingWith(Rectangle(106, 83, 101, 102)),
-			"These squares should overlap");
-	Assertions::assertTrue(!Rectangle(178, 98, 96, 90)
-		.isOverlapingWith(Rectangle(380, 81, 101, 102)),
-			"These squares should not overlap");
-	Assertions::assertTrue(Circle(171,309,43)
-		.isColidingWith(Circle(128,301,36)),
-			"These circles should overlap");
-	Assertions::assertTrue(!Circle(171, 309, 43)
-		.isColidingWith(Circle(263, 279, 36))
-		, "These circles should not overlap");
-	Assertions::assertTrue(areColliding(Circle(166, 204, 36), Rectangle(178, 98, 96, 90)),
-		"This circle should overlap with this rectangle");
-	Assertions::assertTrue(!areColliding(Circle(145, 78, 36), Rectangle(178, 98, 96, 90)),
-		"This circle should not overlap with this rectangle");
+	Shape * shape;
+	int type = rand() % 2;
 
-	cout << Assertions::getErrors();
-	return Assertions::getCode();
+	if (type == 1)
+	{
+		int width = rand() % 30;
+		int height = rand() % 30;
+		int x = rand() % (bounds.getWidth() - width);
+		int y = rand() % (bounds.getHeight() - height);
+		shape = new Rectangle(x, y, width, height);
+	}
+	else
+	{
+		int r = rand() % 15;
+		int x = rand() % (bounds.getWidth() - (2 * r));
+		int y = rand() % (bounds.getHeight() - (2 * r));
+		shape = new Circle(x, y, r);
+	}
+
+	return shape;
 }
 
-int main()
+const int MAX_OBJECTS = 100;
+
+/*int main()
 {
-	test();
-	Rectangle one = Rectangle(11, 11 , 2, 2);
-	Rectangle two = Rectangle(10, 10, 2000, 2000);
-	cout << one.isOverlapingWith(two) << "\n";
+	Rectangle bounds = Rectangle(0, 0, 1200, 1200);
+	Quadtree* environment = new Quadtree(0, bounds);
+	vector<Shape*> allShapes;
+
+	for (int i = 0; i < MAX_OBJECTS; i++)
+	{
+		allShapes.push_back(getRandomShapeWithinBounds(bounds));
+	}
+
+	//Let the game begin
+
+	while (allShapes.size() > 0)
+	{
+		(*environment).clear();
+		for (int i = 0; i < allShapes.size(); i++) {
+			(*environment).insert(allShapes.at(i));
+		}
+
+		vector<Shape*> returnObjects;
+
+		for (int i = 0; i < allShapes.size(); i++) {
+			returnObjects.clear();
+			(*environment).retrieve(returnObjects, allShapes.at(i));
+
+			for (int j = 0; j < returnObjects.size(); j++) {
+				// Run collision detection algorithm between objects
+			}
+		}
+	}
+
+	delete environment;
 
 	system("PAUSE");
-}
+}*/

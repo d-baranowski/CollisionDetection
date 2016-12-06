@@ -15,4 +15,3 @@ private:
 };
 
 bool areColliding(Circle circle, Rectangle rectangle);
-
