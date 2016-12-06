@@ -110,6 +110,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Assertions.h" />
+    <ClInclude Include="Circle.h" />
+    <ClInclude Include="Quadtree.h" />
+    <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="Shape.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Assertions.cpp" />
+    <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Quadtree.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="Shape.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
