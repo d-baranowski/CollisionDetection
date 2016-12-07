@@ -143,7 +143,7 @@ void tests()
 	}
 }
 
-int main()
+/*int main()
 {
 	tests();
 	int code = Assertions::getCode();
@@ -158,4 +158,4 @@ int main()
 	cout << "All tests have passed. \n";
 	system("pause");
 	return 0;
-}
+}*/

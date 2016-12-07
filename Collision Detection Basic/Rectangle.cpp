@@ -7,6 +7,11 @@ using namespace std;
 Rectangle::Rectangle() : Shape(0,0,0,0)
 {}
 
+Rectangle::~Rectangle()
+{
+	
+}
+
 Rectangle::Rectangle(int x, int y, int w, int h) : Shape(x, y, w, h)
 {}
 

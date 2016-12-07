@@ -17,6 +17,11 @@ int Circle::getRadious() const
 	return getWidth() / 2;
 }
 
+Circle::~Circle()
+{
+	
+}
+
 bool Circle::isOverlapingWith(Shape circleOrRectangle)
 {
 	if (Circle* circle = dynamic_cast<Circle*> (&circleOrRectangle))

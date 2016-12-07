@@ -4,7 +4,6 @@ class Shape
 public:
 	Shape(int x, int y, int w, int h);
 	virtual ~Shape();
-	
 	int getXPos()  const;
 	int getYPos()  const;
 	int getHeight() const;

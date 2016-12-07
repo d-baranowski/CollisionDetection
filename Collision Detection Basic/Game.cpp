@@ -30,11 +30,12 @@ Shape * getRandomShapeWithinBounds(Rectangle bounds)
 
 const int MAX_OBJECTS = 100;
 
-/*int main()
+int main()
 {
 	Rectangle bounds = Rectangle(0, 0, 1200, 1200);
 	Quadtree* environment = new Quadtree(0, bounds);
 	vector<Shape*> allShapes;
+	vector<Shape*> collidedShapes;
 
 	for (int i = 0; i < MAX_OBJECTS; i++)
 	{
@@ -42,27 +43,50 @@ const int MAX_OBJECTS = 100;
 	}
 
 	//Let the game begin
+	vector<Shape*> returnObjects;
 
 	while (allShapes.size() > 0)
 	{
+		//Reset quadtree 
 		(*environment).clear();
-		for (int i = 0; i < allShapes.size(); i++) {
+		for (int i = 0; i < allShapes.size(); i++)
+		{
 			(*environment).insert(allShapes.at(i));
 		}
+		//
 
-		vector<Shape*> returnObjects;
-
-		for (int i = 0; i < allShapes.size(); i++) {
+		for (int i = 0; i < allShapes.size(); i++)
+		{
+			//Get all objects allShapes[i] can collide with 
 			returnObjects.clear();
 			(*environment).retrieve(returnObjects, allShapes.at(i));
 
-			for (int j = 0; j < returnObjects.size(); j++) {
-				// Run collision detection algorithm between objects
+			for (int j = 0; j < returnObjects.size(); j++)
+			{
+				if (allShapes[i]->isOverlapingWith(*returnObjects[j]))
+				{
+					collidedShapes.push_back(allShapes[i]);
+				}
+			}
+		}
+
+		for (int i = 0; i < collidedShapes.size(); i++)
+		{
+			delete collidedShapes[i];
+		}
+
+		for (int i = 0; i < allShapes.size(); i++)
+		{
+			Shape* test = allShapes.at(i);
+			if (test == nullptr)
+			{
+				allShapes.erase(allShapes.begin() + i);
 			}
 		}
 	}
 
+
 	delete environment;
 
 	system("PAUSE");
-}*/
+}
