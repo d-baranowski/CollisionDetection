@@ -9,8 +9,8 @@ public:
 	int getHeight() const;
 	int getWidth() const;
 	
-	void moveOnXBy(int num);
-	void moveOnYBy(int num);
+	void moveOnXTo(int num);
+	void moveOnYTo(int num);
 	void moveOnXandY(int x, int y);
 
 	virtual bool isOverlapingWith(Shape shape);

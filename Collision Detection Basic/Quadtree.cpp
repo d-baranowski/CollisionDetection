@@ -26,6 +26,7 @@ void Quadtree::clear()
 		if (nodes[i] != nullptr)
 		{
 			(nodes[i])->clear();
+			delete nodes[i];
 			nodes[i] = nullptr;
 		}
 	}

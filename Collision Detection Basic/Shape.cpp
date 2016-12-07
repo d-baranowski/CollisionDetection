@@ -32,20 +32,20 @@ int Shape::getWidth() const
 	return state[3];
 }
 
-void Shape::moveOnXBy(int num)
+void Shape::moveOnXTo(int num)
 {
-	Shape::state[0] = state[0] + num;
+	Shape::state[0] = num;
 }
 
-void Shape::moveOnYBy(int num)
+void Shape::moveOnYTo(int num)
 {
-	Shape::state[1] = state[1] + num;
+	Shape::state[1] = num;
 }
 
 void Shape::moveOnXandY(int x, int y)
 {
-	Shape::moveOnXBy(x);
-	Shape::moveOnYBy(y);
+	Shape::moveOnXTo(x);
+	Shape::moveOnYTo(y);
 }
 
 bool Shape::isOverlapingWith(Shape shape)

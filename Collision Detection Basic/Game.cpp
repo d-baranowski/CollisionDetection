@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include "Quadtree.h"
 #include "Circle.h"
 
@@ -28,6 +29,12 @@ Shape * getRandomShapeWithinBounds(Rectangle bounds)
 	return shape;
 }
 
+void moveByRandomAmmountWithinBounds(Shape* shape, Rectangle* bounds) {
+	int x = rand() % ((*bounds).getWidth() - (*shape).getWidth());
+	int y = rand() % ((*bounds).getHeight() - (*shape).getHeight());
+	(*shape).moveOnXandY(x,y);
+}
+
 const int MAX_OBJECTS = 100;
 
 int main()
@@ -45,7 +52,7 @@ int main()
 	//Let the game begin
 	vector<Shape*> returnObjects;
 
-	while (allShapes.size() > 0)
+	while (allShapes.size() > 1)
 	{
 		//Reset quadtree 
 		(*environment).clear();
@@ -72,19 +79,18 @@ int main()
 
 		for (int i = 0; i < collidedShapes.size(); i++)
 		{
+			allShapes.erase(find(allShapes.begin(), allShapes.end(), collidedShapes[i]));
+			cout << "Removed shape " << collidedShapes[i] << "\n";
+			cout << "Remaining shapes: " << allShapes.size() << "\n";
 			delete collidedShapes[i];
 		}
+		collidedShapes.clear();
 
 		for (int i = 0; i < allShapes.size(); i++)
 		{
-			Shape* test = allShapes.at(i);
-			if (test == nullptr)
-			{
-				allShapes.erase(allShapes.begin() + i);
-			}
+			moveByRandomAmmountWithinBounds(allShapes[i], &bounds);
 		}
 	}
-
 
 	delete environment;
 
