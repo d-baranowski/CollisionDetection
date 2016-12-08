@@ -12,43 +12,43 @@ Shape::~Shape()
 {
 }
 
-float Shape::getXPos() const
+float Shape::get_x_pos() const
 {
 	return state[0];
 }
 
-float Shape::getYPos() const
+float Shape::get_y_pos() const
 {
 	return state[1];
 }
 
-float Shape::getHeight() const
+float Shape::get_height() const
 {
 	return state[2];
 }
 
-float Shape::getWidth() const
+float Shape::get_width() const
 {
 	return state[3];
 }
 
-void Shape::moveOnXTo(float num)
+void Shape::move_on_x_to(float num)
 {
 	Shape::state[0] = num;
 }
 
-void Shape::moveOnYTo(float num)
+void Shape::move_on_y_to(float num)
 {
 	Shape::state[1] = num;
 }
 
-void Shape::moveOnXandY(float x, float y)
+void Shape::move_on_x_and_y_to(float x, float y)
 {
-	Shape::moveOnXTo(x);
-	Shape::moveOnYTo(y);
+	Shape::move_on_x_to(x);
+	Shape::move_on_y_to(y);
 }
 
-bool Shape::isOverlapingWith(Shape shape)
+bool Shape::is_overlaping_with(Shape shape)
 {
 	return false;
 }

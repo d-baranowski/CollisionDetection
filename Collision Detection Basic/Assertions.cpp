@@ -17,7 +17,7 @@ Assertions::Assertions()
 {
 }
 
-void Assertions::assertTrue(bool condition, string error)
+void Assertions::assert_true(bool condition, string error)
 {
 	if (!condition)
 	{

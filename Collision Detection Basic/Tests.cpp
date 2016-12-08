@@ -7,60 +7,60 @@
 void tests()
 {
 	//Rectangle
-	Assertions::assertTrue(Rectangle(170, 139, 177, 130)
-		.isOverlapingWith(Rectangle(106, 83, 101, 102)),
+	Assertions::assert_true(Rectangle(170, 139, 177, 130)
+		.is_overlaping_with(Rectangle(106, 83, 101, 102)),
 		"These squares should overlap");
-	Assertions::assertTrue(!Rectangle(178, 98, 96, 90)
-		.isOverlapingWith(Rectangle(380, 81, 101, 102)),
+	Assertions::assert_true(!Rectangle(178, 98, 96, 90)
+		.is_overlaping_with(Rectangle(380, 81, 101, 102)),
 		"These squares should not overlap");
 	//Circle
-	Assertions::assertTrue(Circle(171, 309, 43)
-		.isOverlapingWith(Circle(128, 301, 36)),
+	Assertions::assert_true(Circle(171, 309, 43)
+		.is_overlaping_with(Circle(128, 301, 36)),
 		"These circles should overlap");
-	Assertions::assertTrue(!Circle(171, 309, 43)
-		.isOverlapingWith(Circle(263, 279, 36))
+	Assertions::assert_true(!Circle(171, 309, 43)
+		.is_overlaping_with(Circle(263, 279, 36))
 		, "These circles should not overlap");
 
 	//Circle / Rectangle
-	Assertions::assertTrue(Circle(166, 204, 36).isOverlapingWith(Rectangle(178, 98, 96, 90)),
+	Assertions::assert_true(Circle(166, 204, 36).is_overlaping_with(Rectangle(178, 98, 96, 90)),
 		"This circle should overlap with this rectangle");
-	Assertions::assertTrue(!(Circle(145, 78, 36).isOverlapingWith(Rectangle(178, 98, 96, 90))),
+	Assertions::assert_true(!(Circle(145, 78, 36).is_overlaping_with(Rectangle(178, 98, 96, 90))),
 		"This circle should not overlap with this rectangle");
 
 	//Quadtree
 	Quadtree& quadtree = *new Quadtree(0, Rectangle(0, 0, 200, 200));
-	Shape * circleOne = new Circle(49, 49, 8);
-	Shape * squareZero = new Rectangle(143, 38, 20, 20);
-	Shape * squareTwo = new Rectangle(40, 136, 20, 20);
-	Shape * circleThree = new Circle(155, 150, 9);
+	Shape * circle_one = new Circle(49, 49, 8);
+	Shape * square_zero = new Rectangle(143, 38, 20, 20);
+	Shape * square_two = new Rectangle(40, 136, 20, 20);
+	Shape * circle_three = new Circle(155, 150, 9);
 
 	//Can insert into quadtree
-	quadtree.insert(circleOne);
-	quadtree.insert(squareZero);
-	quadtree.insert(squareTwo);
-	quadtree.insert(circleThree);
+	quadtree.insert(circle_one);
+	quadtree.insert(square_zero);
+	quadtree.insert(square_two);
+	quadtree.insert(circle_three);
 
 	vector<Shape*>& returnObjects = *new vector<Shape*>;
 
-	quadtree.retrieve(returnObjects, circleOne);
+	quadtree.get_near_shapes(returnObjects, circle_one);
 
-	Assertions::assertTrue(
+	Assertions::assert_true(
 		find(returnObjects.begin(),
 			returnObjects.end(),
-			squareZero) != returnObjects.end(), "Should contain square zero.");
+			square_zero) != returnObjects.end(), "Should contain square zero.");
 
-	Assertions::assertTrue(
+	Assertions::assert_true(
 		find(returnObjects.begin(),
 			returnObjects.end(),
-			squareTwo) != returnObjects.end(), "Should contain square two.");
+			square_two) != returnObjects.end(), "Should contain square two.");
 
-	Assertions::assertTrue(
+	Assertions::assert_true(
 		find(returnObjects.begin(),
 			returnObjects.end(),
-			circleThree) != returnObjects.end(), "Should contain circle three.");
+			circle_three) != returnObjects.end(), "Should contain circle three.");
 
 	//Add more objects so the quadtree splits
-	Shape * nodeTwoObjects[5] = {
+	Shape * node_two_objects[5] = {
 		new Circle(12, 119, 6),
 		new Circle(37, 113, 6),
 		new Circle(77, 121, 6),
@@ -68,78 +68,76 @@ void tests()
 		new Circle(64, 179, 6)
 	};
 
-	Shape * nodeThreeObjects[2] = {
+	Shape * node_three_objects[2] = {
 		new Rectangle(119,116,20,20),
 		new Rectangle(165,108,20,20)
 	};
 
 	for (int i = 0; i<5; i++)
 	{
-		quadtree.insert(nodeTwoObjects[i]);
+		quadtree.insert(node_two_objects[i]);
 		if (i < 2)
 		{
-			quadtree.insert(nodeThreeObjects[i]);
+			quadtree.insert(node_three_objects[i]);
 		}
 	}
 
-	Assertions::assertTrue(quadtree.hasBeenSplit(), "The tree should have been split.");
-
-	//See if I can retrieve collision objects from node 0
+	//See if I can get_near_shapes collision objects from node 0
 	returnObjects.clear();
-	quadtree.retrieve(returnObjects, squareZero);
+	quadtree.get_near_shapes(returnObjects, square_zero);
 
-	Assertions::assertTrue(returnObjects.size() == 0, "There should be no objects that can collide with square zero.");
+	Assertions::assert_true(returnObjects.size() == 0, "There should be no objects that can collide with square zero.");
 
-	//See if I can retrieve collision objects from node 1
+	//See if I can get_near_shapes collision objects from node 1
 	returnObjects.clear();
-	quadtree.retrieve(returnObjects, circleOne);
+	quadtree.get_near_shapes(returnObjects, circle_one);
 
-	Assertions::assertTrue(returnObjects.size() == 0, "There should be no objects that can collide with circle one.");
+	Assertions::assert_true(returnObjects.size() == 0, "There should be no objects that can collide with circle one.");
 
-	//See if I can retrieve collision objects from node 2
+	//See if I can get_near_shapes collision objects from node 2
 	returnObjects.clear();
-	quadtree.retrieve(returnObjects, squareTwo);
+	quadtree.get_near_shapes(returnObjects, square_two);
 
-	Assertions::assertTrue(returnObjects.size() == 5, "There should be 5 objects that can collide with square two.");
+	Assertions::assert_true(returnObjects.size() == 5, "There should be 5 objects that can collide with square two.");
 
 	for (int i = 0; i < 5; i++)
 	{
-		Assertions::assertTrue(
+		Assertions::assert_true(
 			find(returnObjects.begin(),
 				returnObjects.end(),
-				nodeTwoObjects[i]) != returnObjects.end(), "Should contain nodeTwoObjects: " + i);
+				node_two_objects[i]) != returnObjects.end(), "Should contain nodeTwoObjects: " + i);
 	}
 
-	//See if I can retrieve collision objects from node 3
+	//See if I can get_near_shapes collision objects from node 3
 	returnObjects.clear();
-	quadtree.retrieve(returnObjects, circleThree);
+	quadtree.get_near_shapes(returnObjects, circle_three);
 
-	Assertions::assertTrue(returnObjects.size() == 2, "There should be 2 objects that can collide with circle three.");
+	Assertions::assert_true(returnObjects.size() == 2, "There should be 2 objects that can collide with circle three.");
 
 	for (int i = 0; i < 2; i++)
 	{
-		Assertions::assertTrue(
+		Assertions::assert_true(
 			find(returnObjects.begin(),
 				returnObjects.end(),
-				nodeThreeObjects[i]) != returnObjects.end(), "Should contain nodeThreeObjects: " + i);
+				node_three_objects[i]) != returnObjects.end(), "Should contain nodeThreeObjects: " + i);
 	}
 
 	//Clean up
 	delete &quadtree;
-	delete circleOne;
-	delete circleThree;
-	delete squareTwo;
-	delete squareZero;
+	delete circle_one;
+	delete circle_three;
+	delete square_two;
+	delete square_zero;
 	delete &returnObjects;
 
 	for (int i = 0; i<5; i++)
 	{
-		delete nodeTwoObjects[i];
+		delete node_two_objects[i];
 	}
 
 	for (int i = 0; i<2; i++)
 	{
-		delete nodeThreeObjects[i];
+		delete node_three_objects[i];
 	}
 }
 

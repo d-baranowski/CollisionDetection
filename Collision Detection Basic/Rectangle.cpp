@@ -16,19 +16,19 @@ Rectangle::Rectangle(int x, int y, int w, int h) : Shape(x, y, w, h)
 {}
 
 //I could remove less or equals and use less but that wouldn't be able to tell if object with same dimensions and possition are overlaping
-bool Rectangle::isOverlapingWith(Shape rectangleOrCircle)
+bool Rectangle::is_overlaping_with(Shape rectangleOrCircle)
 {
 	if (Circle* circle = dynamic_cast<Circle*> (&rectangleOrCircle))
 	{
-		const int deltaX = (*circle).getXPos() - max(this->getXPos(), min((*circle).getXPos(), this->getXPos() + this->getWidth()));
-		const int deltaY = (*circle).getYPos() - max(this->getYPos(), min((*circle).getYPos(), this->getYPos() + this->getHeight()));
+		const int deltaX = (*circle).get_x_pos() - max(this->get_x_pos(), min((*circle).get_x_pos(), this->get_x_pos() + this->get_width()));
+		const int deltaY = (*circle).get_y_pos() - max(this->get_y_pos(), min((*circle).get_y_pos(), this->get_y_pos() + this->get_height()));
 		return (deltaX * deltaX + deltaY * deltaY) < ((*circle).getRadious() * (*circle).getRadious());
 	}
 
 	return 
-		this->getXPos() <= rectangleOrCircle.getXPos() + rectangleOrCircle.getWidth() &&
-		this->getXPos() + this->getWidth() >= rectangleOrCircle.getXPos() &&
-		this->getYPos() <= rectangleOrCircle.getYPos() + rectangleOrCircle.getHeight() &&
-		this->getYPos() + this->getHeight() >= rectangleOrCircle.getYPos();
+		this->get_x_pos() <= rectangleOrCircle.get_x_pos() + rectangleOrCircle.get_width() &&
+		this->get_x_pos() + this->get_width() >= rectangleOrCircle.get_x_pos() &&
+		this->get_y_pos() <= rectangleOrCircle.get_y_pos() + rectangleOrCircle.get_height() &&
+		this->get_y_pos() + this->get_height() >= rectangleOrCircle.get_y_pos();
 }
 

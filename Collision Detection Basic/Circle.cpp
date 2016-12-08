@@ -14,7 +14,7 @@ Circle::Circle(int x, int y, int r) : Shape(x, y, r * 2, r * 2)
 
 int Circle::getRadious() const
 {
-	return getWidth() / 2;
+	return get_width() / 2;
 }
 
 Circle::~Circle()
@@ -22,16 +22,16 @@ Circle::~Circle()
 	
 }
 
-bool Circle::isOverlapingWith(Shape circleOrRectangle)
+bool Circle::is_overlaping_with(Shape circleOrRectangle)
 {
 	if (Circle* circle = dynamic_cast<Circle*> (&circleOrRectangle))
 	{
-		return abs((this->getXPos() - (*circle).getXPos()) * (this->getXPos() - (*circle).getXPos())
-			+ (this->getYPos() - (*circle).getYPos()) * (this->getYPos() - (*circle).getYPos()))
+		return abs((this->get_x_pos() - (*circle).get_x_pos()) * (this->get_x_pos() - (*circle).get_x_pos())
+			+ (this->get_y_pos() - (*circle).get_y_pos()) * (this->get_y_pos() - (*circle).get_y_pos()))
 			< (this->getRadious() + (*circle).getRadious()) * (this->getRadious() + (*circle).getRadious());
 	}
 
-	const int deltaX = this->getXPos() - max(circleOrRectangle.getXPos(), min(this->getXPos(), circleOrRectangle.getXPos() + circleOrRectangle.getWidth()));
-	const int deltaY = this->getYPos() - max(circleOrRectangle.getYPos(), min(this->getYPos(), circleOrRectangle.getYPos() + circleOrRectangle.getHeight()));
+	const int deltaX = this->get_x_pos() - max(circleOrRectangle.get_x_pos(), min(this->get_x_pos(), circleOrRectangle.get_x_pos() + circleOrRectangle.get_width()));
+	const int deltaY = this->get_y_pos() - max(circleOrRectangle.get_y_pos(), min(this->get_y_pos(), circleOrRectangle.get_y_pos() + circleOrRectangle.get_height()));
 	return (deltaX * deltaX + deltaY * deltaY) < (this->getRadious() * this->getRadious());
 }

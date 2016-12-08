@@ -6,7 +6,7 @@ using namespace std;
 class Assertions
 {
 public:
-	static void assertTrue(bool expression, string error);
+	static void assert_true(bool expression, string error);
 	static void assertEquals(string test_name, float value, float expected);
 	template <typename T>
 	static void assertEquals(string test_name, T value, T expected);
@@ -22,5 +22,5 @@ private:
 template <class T>
 void Assertions::assertEquals(string test_name, T value, T expected)
 {
-	Assertions::assertTrue(value == expected, "Test: \"" + test_name + "\" failed. Expected: " + expected + " Actual: " + value);
+	Assertions::assert_true(value == expected, "Test: \"" + test_name + "\" failed. Expected: " + expected + " Actual: " + value);
 }

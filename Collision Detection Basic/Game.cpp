@@ -2,95 +2,94 @@
 #include <algorithm>
 #include "Quadtree.h"
 #include "Circle.h"
+#include "MyConstants.h"
 
 using namespace std;
 
-Shape * getRandomShapeWithinBounds(Rectangle bounds)
+Shape * get_random_shape_within_bounds(Rectangle bounds)
 {
 	Shape * shape;
 	int type = rand() % 2;
 
 	if (type == 1)
 	{
-		int width = rand() % 30;
-		int height = rand() % 30;
-		int x = rand() % static_cast<int>(bounds.getWidth() - width);
-		int y = rand() % static_cast<int>(bounds.getHeight() - height);
+		float width = rand() % MAX_OBJECT_WIDTH;
+		float height = rand() % MAX_OBJECT_HEIGHT;
+		float x = rand() % static_cast<int>(bounds.get_width() - width);
+		float y = rand() % static_cast<int>(bounds.get_height() - height);
 		shape = new Rectangle(x, y, width, height);
 	}
 	else
 	{
-		int r = rand() % 15;
-		int x = rand() % static_cast<int>(bounds.getWidth() - (2 * r));
-		int y = rand() % static_cast<int>(bounds.getHeight() - (2 * r));
+		float r = rand() % MAX_OBJECT_WIDTH / 2;
+		float x = rand() % static_cast<int>(bounds.get_width() - (2 * r));
+		float y = rand() % static_cast<int>(bounds.get_height() - (2 * r));
 		shape = new Circle(x, y, r);
 	}
 
 	return shape;
 }
 
-void moveByRandomAmmountWithinBounds(Shape* shape, Rectangle* bounds) {
-	int x = rand() % static_cast<int>((*bounds).getWidth() - (*shape).getWidth());
-	int y = rand() % static_cast<int>((*bounds).getHeight() - (*shape).getHeight());
-	(*shape).moveOnXandY(x,y);
+void move_to_random_location_within_bounds(Shape* shape, Rectangle* bounds) {
+	float x = rand() % static_cast<int>((*bounds).get_width() - (*shape).get_width());
+	float y = rand() % static_cast<int>((*bounds).get_height() - (*shape).get_height());
+	(*shape).move_on_x_and_y_to(x,y);
 }
-
-const int MAX_OBJECTS = 100;
 
 int main()
 {
-	Rectangle bounds = Rectangle(0, 0, 1200, 1200);
+	Rectangle bounds = Rectangle(0, 0, BOUNDS_WIDTH, BOUNDS_HEIGHT);
 	Quadtree* environment = new Quadtree(0, bounds);
-	vector<Shape*> allShapes;
+	vector<Shape*> all_shapes;
 
-	for (int i = 0; i < MAX_OBJECTS; i++)
+	for (int i = 0; i < MAX_OBJECTS_COUNT; i++)
 	{
-		allShapes.push_back(getRandomShapeWithinBounds(bounds));
+		all_shapes.push_back(get_random_shape_within_bounds(bounds));
 	}
 
 	//Let the game begin
-	vector<Shape*> returnObjects;
+	vector<Shape*> near_shapes;
 
-	while (allShapes.size() > 1)
+	while (all_shapes.size() > 1)
 	{
 		//Reset quadtree 
 		(*environment).clear();
-		for (int i = 0; i < allShapes.size(); i++)
+		for (int i = 0; i < all_shapes.size(); i++)
 		{
-			(*environment).insert(allShapes.at(i));
+			(*environment).insert(all_shapes.at(i));
 		}
 		//
 
-		for (int i = 0; i < allShapes.size(); i++)
+		for (int i = 0; i < all_shapes.size(); i++)
 		{
 			//Get all objects allShapes[i] can collide with 
-			returnObjects.clear();
-			(*environment).retrieve(returnObjects, allShapes.at(i));
+			near_shapes.clear();
+			(*environment).get_near_shapes(near_shapes, all_shapes.at(i));
 
-			for (int j = 0; j < returnObjects.size(); j++)
+			for (int j = 0; j < near_shapes.size(); j++)
 			{
-				if (allShapes[i]->isOverlapingWith(*returnObjects[j]))
+				if (all_shapes[i]->is_overlaping_with(*near_shapes[j]))
 				{
-					allShapes[i]->hasCollided = true;
-					returnObjects[j]->hasCollided = true;
+					all_shapes[i]->has_collided_ = true;
+					near_shapes[j]->has_collided_ = true;
 				}
 			}
 		}
 
-		for (int i = 0; i < allShapes.size(); i++)
+		for (int i = 0; i < all_shapes.size(); i++)
 		{
-			if (allShapes[i]->hasCollided)
+			if (all_shapes[i]->has_collided_)
 			{
-				cout << "Removed shape " << allShapes[i] << "\n";
-				delete allShapes[i];
-				allShapes.erase(allShapes.begin() + i);
-				cout << "Remaining shapes: " << allShapes.size() << "\n";
+				cout << "Removed shape " << all_shapes[i] << "\n";
+				delete all_shapes[i];
+				all_shapes.erase(all_shapes.begin() + i);
+				cout << "Remaining shapes: " << all_shapes.size() << "\n";
 			}
 		}
 
-		for (int i = 0; i < allShapes.size(); i++)
+		for (int i = 0; i < all_shapes.size(); i++)
 		{
-			moveByRandomAmmountWithinBounds(allShapes[i], &bounds);
+			move_to_random_location_within_bounds(all_shapes[i], &bounds);
 		}
 	}
 

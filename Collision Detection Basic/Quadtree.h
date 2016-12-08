@@ -13,10 +13,7 @@ public:
 	~Quadtree();
 	void clear();
 	void insert(Shape* shape);
-	void retrieve(vector<Shape*>& returnObjects, Shape* shape);
-
-	//Consider deleating this debug method.
-	bool hasBeenSplit() const;
+	void get_near_shapes(vector<Shape*>& returnObjects, Shape* shape);
 
 private:
 	const int MAX_OBJECTS = 10; //How many objects can I hold before it splits

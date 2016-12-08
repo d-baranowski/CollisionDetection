@@ -9,6 +9,6 @@ public:
 	virtual ~Circle();
 	int getRadious() const;
 
-	bool isOverlapingWith(Shape circleOrSquare) override;
+	bool is_overlaping_with(Shape circleOrSquare) override;
 
 };
