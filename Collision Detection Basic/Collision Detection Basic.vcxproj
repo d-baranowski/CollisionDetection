@@ -112,6 +112,7 @@
   <ItemGroup>
     <ClInclude Include="Assertions.h" />
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="MyConstants.h" />
     <ClInclude Include="Quadtree.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Shape.h" />

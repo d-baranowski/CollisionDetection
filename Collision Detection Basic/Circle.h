@@ -5,9 +5,9 @@
 class Circle : public Shape
 {
 public:
-	Circle(int x, int y, int r);
+	Circle(float x, float y, float r);
 	virtual ~Circle();
-	int getRadious() const;
+	float getRadious() const;
 
 	bool is_overlaping_with(Shape circleOrSquare) override;
 

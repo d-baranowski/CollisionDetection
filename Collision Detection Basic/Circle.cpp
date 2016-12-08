@@ -9,10 +9,10 @@
 using namespace std;
 
 
-Circle::Circle(int x, int y, int r) : Shape(x, y, r * 2, r * 2)
+Circle::Circle(float x, float y, float r) : Shape(x, y, r * 2, r * 2)
 {}
 
-int Circle::getRadious() const
+float Circle::getRadious() const
 {
 	return get_width() / 2;
 }

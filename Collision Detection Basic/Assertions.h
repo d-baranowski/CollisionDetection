@@ -7,9 +7,8 @@ class Assertions
 {
 public:
 	static void assert_true(bool expression, string error);
-	static void assertEquals(string test_name, float value, float expected);
 	template <typename T>
-	static void assertEquals(string test_name, T value, T expected);
+	static void assert_equals(string test_name, T value, T expected);
 	static string getErrors();
 	static int getCode();
 
@@ -20,7 +19,7 @@ private:
 };
 
 template <class T>
-void Assertions::assertEquals(string test_name, T value, T expected)
+void Assertions::assert_equals(string test_name, T value, T expected)
 {
 	Assertions::assert_true(value == expected, "Test: \"" + test_name + "\" failed. Expected: " + expected + " Actual: " + value);
 }
