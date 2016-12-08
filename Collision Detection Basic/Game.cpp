@@ -14,15 +14,15 @@ Shape * getRandomShapeWithinBounds(Rectangle bounds)
 	{
 		int width = rand() % 30;
 		int height = rand() % 30;
-		int x = rand() % (bounds.getWidth() - width);
-		int y = rand() % (bounds.getHeight() - height);
+		int x = rand() % static_cast<int>(bounds.getWidth() - width);
+		int y = rand() % static_cast<int>(bounds.getHeight() - height);
 		shape = new Rectangle(x, y, width, height);
 	}
 	else
 	{
 		int r = rand() % 15;
-		int x = rand() % (bounds.getWidth() - (2 * r));
-		int y = rand() % (bounds.getHeight() - (2 * r));
+		int x = rand() % static_cast<int>(bounds.getWidth() - (2 * r));
+		int y = rand() % static_cast<int>(bounds.getHeight() - (2 * r));
 		shape = new Circle(x, y, r);
 	}
 
@@ -30,8 +30,8 @@ Shape * getRandomShapeWithinBounds(Rectangle bounds)
 }
 
 void moveByRandomAmmountWithinBounds(Shape* shape, Rectangle* bounds) {
-	int x = rand() % ((*bounds).getWidth() - (*shape).getWidth());
-	int y = rand() % ((*bounds).getHeight() - (*shape).getHeight());
+	int x = rand() % static_cast<int>((*bounds).getWidth() - (*shape).getWidth());
+	int y = rand() % static_cast<int>((*bounds).getHeight() - (*shape).getHeight());
 	(*shape).moveOnXandY(x,y);
 }
 
@@ -42,7 +42,6 @@ int main()
 	Rectangle bounds = Rectangle(0, 0, 1200, 1200);
 	Quadtree* environment = new Quadtree(0, bounds);
 	vector<Shape*> allShapes;
-	vector<Shape*> collidedShapes;
 
 	for (int i = 0; i < MAX_OBJECTS; i++)
 	{
@@ -72,19 +71,22 @@ int main()
 			{
 				if (allShapes[i]->isOverlapingWith(*returnObjects[j]))
 				{
-					collidedShapes.push_back(allShapes[i]);
+					allShapes[i]->hasCollided = true;
+					returnObjects[j]->hasCollided = true;
 				}
 			}
 		}
 
-		for (int i = 0; i < collidedShapes.size(); i++)
+		for (int i = 0; i < allShapes.size(); i++)
 		{
-			allShapes.erase(find(allShapes.begin(), allShapes.end(), collidedShapes[i]));
-			cout << "Removed shape " << collidedShapes[i] << "\n";
-			cout << "Remaining shapes: " << allShapes.size() << "\n";
-			delete collidedShapes[i];
+			if (allShapes[i]->hasCollided)
+			{
+				cout << "Removed shape " << allShapes[i] << "\n";
+				delete allShapes[i];
+				allShapes.erase(allShapes.begin() + i);
+				cout << "Remaining shapes: " << allShapes.size() << "\n";
+			}
 		}
-		collidedShapes.clear();
 
 		for (int i = 0; i < allShapes.size(); i++)
 		{

@@ -1,6 +1,6 @@
 #include "Shape.h"
 
-Shape::Shape(int x, int y, int w, int h)
+Shape::Shape(float x, float y, float w, float h)
 {
 	state[0] = x;
 	state[1] = y;
@@ -12,37 +12,37 @@ Shape::~Shape()
 {
 }
 
-int Shape::getXPos() const
+float Shape::getXPos() const
 {
 	return state[0];
 }
 
-int Shape::getYPos() const
+float Shape::getYPos() const
 {
 	return state[1];
 }
 
-int Shape::getHeight() const
+float Shape::getHeight() const
 {
 	return state[2];
 }
 
-int Shape::getWidth() const
+float Shape::getWidth() const
 {
 	return state[3];
 }
 
-void Shape::moveOnXTo(int num)
+void Shape::moveOnXTo(float num)
 {
 	Shape::state[0] = num;
 }
 
-void Shape::moveOnYTo(int num)
+void Shape::moveOnYTo(float num)
 {
 	Shape::state[1] = num;
 }
 
-void Shape::moveOnXandY(int x, int y)
+void Shape::moveOnXandY(float x, float y)
 {
 	Shape::moveOnXTo(x);
 	Shape::moveOnYTo(y);

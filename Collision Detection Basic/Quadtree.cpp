@@ -92,8 +92,8 @@ bool Quadtree::hasBeenSplit() const
 
 void Quadtree::split()
 {
-	const int subWidth = bounds.getWidth() / 2;
-	const int subHeight = bounds.getHeight() / 2;
+	const float subWidth = bounds.getWidth() / 2;
+	const float subHeight = bounds.getHeight() / 2;
 	
 	nodes[0] = new Quadtree(level + 1, Rectangle(bounds.getXPos() + subWidth, bounds.getYPos(), subWidth, subHeight));
 	nodes[1] = new Quadtree(level + 1, Rectangle(bounds.getXPos(), bounds.getYPos(), subWidth, subHeight));

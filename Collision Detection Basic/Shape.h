@@ -2,20 +2,19 @@
 class Shape
 {
 public:
-	Shape(int x, int y, int w, int h);
+	Shape(float x, float y, float w, float h);
 	virtual ~Shape();
-	int getXPos()  const;
-	int getYPos()  const;
-	int getHeight() const;
-	int getWidth() const;
+	float getXPos()  const;
+	float getYPos()  const;
+	float getHeight() const;
+	float getWidth() const;
 	
-	void moveOnXTo(int num);
-	void moveOnYTo(int num);
-	void moveOnXandY(int x, int y);
+	void moveOnXTo(float num);
+	void moveOnYTo(float num);
+	void moveOnXandY(float x, float y);
 
+	bool hasCollided = false;
 	virtual bool isOverlapingWith(Shape shape);
-
-
 protected:
 	int state[4];
 };
