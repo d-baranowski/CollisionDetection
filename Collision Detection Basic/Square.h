@@ -1,12 +1,12 @@
 #pragma once
 #include "Shape.h"
 
-class Square : public Shape
+class Square : public Shape 
 {
 public:
 	Square();
 	virtual ~Square();
-	Square(int x, int y, int w, int h);
+	Square(float x, float y, float w, float h);
 	bool is_overlaping_with(const Shape& square) const override;
 	string to_string() const override;
 };

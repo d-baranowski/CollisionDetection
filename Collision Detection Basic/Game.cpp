@@ -44,7 +44,7 @@ void play_game()
 {
 	//Setup
 	Square bounds = Square(0, 0, BOUNDS_WIDTH, BOUNDS_HEIGHT);
-	Quadtree* environment = new Quadtree(0, bounds);
+	Quadtree environment = Quadtree(0, bounds);
 	vector<Shape*> all_shapes = vector<Shape*>();
 	vector<Shape*> near_shapes = vector<Shape*>();
 
@@ -57,17 +57,17 @@ void play_game()
 	while (all_shapes.size() > MAX_REMAINING_OBJECTS)
 	{
 		//Reset quadtree 
-		(*environment).clear();
+		environment.clear();
 		for (int i = 0; i < all_shapes.size(); i++)
 		{
-			(*environment).insert(all_shapes.at(i));
+			environment.insert(all_shapes.at(i));
 		}
 		
 		for (int i = 0; i < all_shapes.size(); i++)
 		{
 			//Get all objects it can collide with 
 			near_shapes.clear();
-			(*environment).get_near_shapes(near_shapes, all_shapes.at(i));
+			environment.get_near_shapes(near_shapes, all_shapes.at(i));
 
 			for (int j = 0; j < near_shapes.size(); j++)
 			{
@@ -101,8 +101,6 @@ void play_game()
 			move_to_random_location_within_bounds(all_shapes[i], bounds);
 		}
 	}
-
-	delete environment;
 }
 
 int main()

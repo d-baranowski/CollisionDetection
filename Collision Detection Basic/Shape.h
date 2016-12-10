@@ -14,12 +14,13 @@ struct UnsuportedShapeException : public std::exception {
 class Shape
 {
 public:
-	Shape(float x, float y, float w, float h);
+	Shape(float* state_array);
 	virtual ~Shape();
 	float get_x_pos()  const;
 	float get_y_pos()  const;
-	float get_height() const;
-	float get_width() const;
+	
+	virtual float get_height() const;
+	virtual float get_width() const;
 	virtual bool is_overlaping_with(const Shape& shape) const;
 	virtual string to_string() const;
 	
