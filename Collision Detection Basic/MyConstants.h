@@ -1,0 +1,13 @@
+#pragma once
+const static int
+BOUNDS_HEIGHT = 100,
+BOUNDS_WIDTH = 100,
+MAX_OBJECTS_COUNT = 10,
+MAX_OBJECT_WIDTH = 100,
+MAX_OBJECT_HEIGHT = 100,
+MIN_OBJECT_WIDTH = 10,
+MIN_OBJECT_HEIGHT = 10,
+MIN_MOVE = 5,
+MAX_REMAINING_OBJECTS = 1;
+
+enum Shape_Type { square = 1, circle = 0 };
