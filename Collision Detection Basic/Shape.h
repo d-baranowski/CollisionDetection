@@ -14,7 +14,7 @@ struct UnsuportedShapeException : public std::exception {
 class Shape
 {
 public:
-	Shape(float* state_array);
+	Shape(float x, float y, float w, float h);
 	virtual ~Shape();
 	float get_x_pos()  const;
 	float get_y_pos()  const;

@@ -10,7 +10,7 @@ Square::Square() : Shape(0,0,0,0)
 Square::~Square()
 {}
 
-Square::Square(int x, int y, int w, int h) : Shape(x, y, w, h)
+Square::Square(float x, float y, float w, float h) : Shape(x, y, w, h)
 {}
 
 //I could remove less or equals and use less but that wouldn't be able to tell if object with same dimensions and possition are overlaping

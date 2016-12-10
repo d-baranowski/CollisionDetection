@@ -2,7 +2,6 @@
 
 
 Shape::Shape(float x, float y, float w, float h)
-	:state_array{x,y,w,h}
 {
 }
 
