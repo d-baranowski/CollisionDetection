@@ -2,20 +2,14 @@
 
 using namespace std;
 
-Quadtree::Quadtree(int level, const Square& bounds)
+Quadtree::Quadtree(int level, const Square& bounds) : level(level), bounds(bounds), nodes{}, objects(vector<Shape*>())
 {
-	this->level = level;
-	this->bounds = bounds;
-	//TODO initialize nodes
 }
 
 
 Quadtree::~Quadtree()
 {
-	for (int i = 0; i < 4; ++i)
-	{
-		delete nodes[i]; //TODO check if delete runs clear
-	}
+	clear();
 }
 
 void Quadtree::clear()
@@ -26,7 +20,7 @@ void Quadtree::clear()
 	{
 		if (nodes[i] != nullptr)
 		{
-			(nodes[i])->clear(); //TODO check if delete runs clear
+			(nodes[i])->clear();
 			delete nodes[i];
 			nodes[i] = nullptr;
 		}
@@ -87,13 +81,12 @@ void Quadtree::get_near_shapes(vector<Shape*>& returnObjects, Shape* shape)
 
 void Quadtree::split()
 {
-	const float subWidth = bounds.get_width() / 2;
-	const float subHeight = bounds.get_height() / 2;
+	const float sub_side_length = bounds.get_side_length() / 2;
 	
-	nodes[0] = new Quadtree(level + 1, Square(bounds.get_x_pos() + subWidth, bounds.get_y_pos(), subWidth, subHeight));
-	nodes[1] = new Quadtree(level + 1, Square(bounds.get_x_pos(), bounds.get_y_pos(), subWidth, subHeight));
-	nodes[2] = new Quadtree(level + 1, Square(bounds.get_x_pos(), bounds.get_y_pos() + subHeight, subWidth, subHeight));
-	nodes[3] = new Quadtree(level + 1, Square(bounds.get_x_pos() + subWidth, bounds.get_y_pos() + subHeight, subWidth, subHeight));
+	nodes[0] = new Quadtree(level + 1, Square(bounds.get_x_pos() + sub_side_length, bounds.get_y_pos(), sub_side_length));
+	nodes[1] = new Quadtree(level + 1, Square(bounds.get_x_pos(), bounds.get_y_pos(), sub_side_length));
+	nodes[2] = new Quadtree(level + 1, Square(bounds.get_x_pos(), bounds.get_y_pos() + sub_side_length, sub_side_length));
+	nodes[3] = new Quadtree(level + 1, Square(bounds.get_x_pos() + sub_side_length, bounds.get_y_pos() + sub_side_length, sub_side_length));
 }
 
 /**

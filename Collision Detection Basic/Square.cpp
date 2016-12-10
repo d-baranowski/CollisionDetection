@@ -1,36 +1,65 @@
 #include "Square.h"
 #include "Circle.h"
-#include <algorithm>
+#include "MyConstants.h"
 
 using namespace std;
 
-Square::Square() : Shape(0,0,0,0)
-{}
+Square::Square() : Shape(), state_array{ MIN_OBJECT_SIDE_LENGTH, MIN_OBJECT_SIDE_LENGTH, MIN_OBJECT_SIDE_LENGTH }
+{} 
+
 
 Square::~Square()
 {}
 
-Square::Square(float x, float y, float w, float h) : Shape(x, y, w, h)
+Square::Square(float x, float y, float w) : Shape(), state_array{x,y,w}
 {}
+
+float Square::get_x_pos() const
+{
+	return state_array[X_INDEX];
+}
+
+float Square::get_y_pos() const
+{
+	return state_array[Y_INDEX];
+}
+
+float Square::get_width() const
+{
+	return get_side_length();
+}
+
+float Square::get_height() const
+{
+	return get_side_length();
+}
+
+float Square::get_side_length() const
+{
+	return state_array[W_INDEX];
+}
 
 //I could remove less or equals and use less but that wouldn't be able to tell if object with same dimensions and possition are overlaping
 bool Square::is_overlaping_with(const Shape& rectangleOrCircle) const
 {
 	if (const Circle* circle = dynamic_cast<const Circle*> (&rectangleOrCircle))
 	{
-		const float deltaX = circle->get_x_pos() - max(this->get_x_pos(), min(circle->get_x_pos(), this->get_x_pos() + this->get_width()));
-		const float deltaY = circle->get_y_pos() - max(this->get_y_pos(), min(circle->get_y_pos(), this->get_y_pos() + this->get_height()));
-		return (deltaX * deltaX + deltaY * deltaY) < ((*circle).get_radious() * (*circle).get_radious());
+		return circle->is_overlaping_with(this);
 	}
-	else if (const Square* rectangle = dynamic_cast<const Square*> (&rectangleOrCircle)) {
-		return
-			this->get_x_pos() <= rectangle->get_x_pos() + rectangle->get_width() &&
-			this->get_x_pos() + this->get_width() >= rectangle->get_x_pos() &&
-			this->get_y_pos() <= rectangle->get_y_pos() + rectangle->get_height() &&
-			this->get_y_pos() + this->get_height() >= rectangle->get_y_pos();
+	else if (const Square* square = dynamic_cast<const Square*> (&rectangleOrCircle)) {
+		return is_overlaping_with(square);
 	}
 
 	throw UnsuportedShapeException();
+}
+
+bool Square::is_overlaping_with(const Square* square) const
+{
+	return
+		this->get_x_pos() < square->get_x_pos() + square->get_side_length() &&
+		this->get_x_pos() + this->get_width() > square->get_x_pos() &&
+		this->get_y_pos() < square->get_y_pos() + square->get_height() &&
+		this->get_y_pos() + this->get_height() > square->get_y_pos();
 }
 
 string Square::to_string() const {
@@ -38,4 +67,14 @@ string Square::to_string() const {
 		+ " y:" + std::to_string(get_y_pos())
 		+ " w:" + std::to_string(get_width())
 		+ "]";
+}
+
+void Square::move_on_x_to(float newX)
+{
+	state_array[X_INDEX] = newX;
+}
+
+void Square::move_on_y_to(float newY)
+{
+	state_array[Y_INDEX] = newY;
 }

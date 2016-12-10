@@ -1,48 +1,46 @@
 #include "Shape.h"
 
 
-Shape::Shape(float x, float y, float w, float h)
-{
-}
+Shape::Shape() : has_collided(false), collided_with("")
+{}
 
 Shape::~Shape()
-{
-}
+{}
 
 float Shape::get_x_pos() const
 {
-	return state_array[0];
+	throw UnsuportedShapeException();
 }
 
 float Shape::get_y_pos() const
 {
-	return state_array[1];
+	throw UnsuportedShapeException();
 }
 
 float Shape::get_height() const
 {
-	return state_array[2];
+	throw UnsuportedShapeException();
 }
 
 float Shape::get_width() const
 {
-	return state_array[3];
+	throw UnsuportedShapeException();
 }
 
-void Shape::move_on_x_to(float num)
+void Shape::move_on_x_to(float newX)
 {
-	Shape::state_array[0] = num;
+	throw UnsuportedShapeException();
 }
 
-void Shape::move_on_y_to(float num)
+void Shape::move_on_y_to(float newY)
 {
-	Shape::state_array[1] = num;
+	throw UnsuportedShapeException();
 }
 
 void Shape::move_on_x_and_y_to(float x, float y)
 {
-	Shape::move_on_x_to(x);
-	Shape::move_on_y_to(y);
+	move_on_x_to(x);
+	move_on_y_to(y);
 }
 
 bool Shape::is_overlaping_with(const Shape& shape) const

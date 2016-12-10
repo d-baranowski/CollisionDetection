@@ -11,23 +11,28 @@ int get_random_value(int max, int min)
 	return (rand() % (max - min)) + min;
 }
 
+/*
+ * This creates a random shape on the heap and returns a pointer to it. 
+ * It will decide between a circle and a square through a random number,
+ * It will decide upon a random size of the shape using MAX_OBJECT_SIDE_LENGTH and MIN_OBJECT_SIDE_LENGTH constans 
+ * and then use these values to get a random x and y cordinates within bounds.
+ */
 Shape * create_random_shape_within_bounds(const Square& bounds)
 {
 	int type = rand() % 2;
 
 	if (type == square) 
 	{
-		float width = get_random_value(MAX_OBJECT_WIDTH, MIN_OBJECT_WIDTH);
-		float height = get_random_value(MAX_OBJECT_HEIGHT, MIN_OBJECT_HEIGHT);
-		float x = get_random_value(bounds.get_width() - width, 0);
-		float y = get_random_value(bounds.get_height() - height,0);
-		return new Square(x, y, width, height);
+		float sideLength = get_random_value(MAX_OBJECT_SIDE_LENGTH, MIN_OBJECT_SIDE_LENGTH);
+		float x = get_random_value(bounds.get_side_length() - sideLength, 0);
+		float y = get_random_value(bounds.get_side_length() - sideLength, 0);
+		return new Square(x, y, sideLength);
 	}
 	else if (type == circle)
 	{
-		float r = get_random_value(MAX_OBJECT_WIDTH,MIN_OBJECT_WIDTH) / 2;
-		float x = get_random_value(bounds.get_width() - (2 * r), 0);
-		float y = get_random_value(bounds.get_height() - (2 * r), 0);
+		float r = get_random_value(MAX_OBJECT_SIDE_LENGTH / 2,MIN_OBJECT_SIDE_LENGTH / 2);
+		float x = get_random_value(bounds.get_side_length() - r, r);
+		float y = get_random_value(bounds.get_side_length() - r, r);
 		return new Circle(x, y, r);
 	}
 
@@ -43,7 +48,7 @@ void move_to_random_location_within_bounds(Shape* shape, const Square& bounds) {
 void play_game()
 {
 	//Setup
-	Square bounds = Square(0, 0, BOUNDS_WIDTH, BOUNDS_HEIGHT);
+	Square bounds = Square(0, 0, BOUNDS_SIDE_WIDTH);
 	Quadtree environment = Quadtree(0, bounds);
 	vector<Shape*> all_shapes = vector<Shape*>();
 	vector<Shape*> near_shapes = vector<Shape*>();
@@ -71,12 +76,15 @@ void play_game()
 
 			for (int j = 0; j < near_shapes.size(); j++)
 			{
-				if (all_shapes[i]->is_overlaping_with(*near_shapes[j]))
+				if (!all_shapes[i]->has_collided)
 				{
-					all_shapes[i]->has_collided = true; 
-					all_shapes[i]->collided_with = near_shapes[j]->to_string();
-					near_shapes[j]->has_collided = true;
-					near_shapes[j]->collided_with = all_shapes[i]->to_string();
+					if (all_shapes[i]->is_overlaping_with(*near_shapes[j]))
+					{
+						all_shapes[i]->has_collided = true;
+						all_shapes[i]->collided_with = near_shapes[j]->to_string();
+						near_shapes[j]->has_collided = true;
+						near_shapes[j]->collided_with = all_shapes[i]->to_string();
+					}
 				}
 			}
 		}

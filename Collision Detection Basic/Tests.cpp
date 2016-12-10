@@ -6,32 +6,35 @@
 
 void tests()
 {
-	//Rectangle
-	Assertions::assert_true(Square(170, 139, 177, 130)
-		.is_overlaping_with(Square(106, 83, 101, 102)),
+	//Square
+	Assertions::assert_true(Square(170, 139, 177)
+		.is_overlaping_with(Square(106, 83, 101)),
 		"These squares should overlap");
-	Assertions::assert_true(!Square(178, 98, 96, 90)
-		.is_overlaping_with(Square(380, 81, 101, 102)),
+
+	Assertions::assert_true(!Square(178, 98, 96)
+		.is_overlaping_with(Square(380, 81, 101)),
 		"These squares should not overlap");
+
 	//Circle
 	Assertions::assert_true(Circle(171, 309, 43)
 		.is_overlaping_with(Circle(128, 301, 36)),
 		"These circles should overlap");
+
 	Assertions::assert_true(!Circle(171, 309, 43)
 		.is_overlaping_with(Circle(263, 279, 36))
 		, "These circles should not overlap");
 
 	//Circle / Rectangle
-	Assertions::assert_true(Circle(166, 204, 36).is_overlaping_with(Square(178, 98, 96, 90)),
+	Assertions::assert_true(Circle(166, 204, 36).is_overlaping_with(Square(178, 98, 96)),
 		"This circle should overlap with this rectangle");
-	Assertions::assert_true(!(Circle(145, 78, 36).is_overlaping_with(Square(178, 98, 96, 90))),
+	Assertions::assert_true(!(Circle(145, 78, 36).is_overlaping_with(Square(178, 98, 96))),
 		"This circle should not overlap with this rectangle");
 
 	//Quadtree
-	Quadtree& quadtree = *new Quadtree(0, Square(0, 0, 200, 200));
+	Quadtree& quadtree = *new Quadtree(0, Square(0, 0, 200));
 	Shape * circle_one = new Circle(49, 49, 8);
-	Shape * square_zero = new Square(143, 38, 20, 20);
-	Shape * square_two = new Square(40, 136, 20, 20);
+	Shape * square_zero = new Square(143, 38, 20);
+	Shape * square_two = new Square(40, 136, 20);
 	Shape * circle_three = new Circle(155, 150, 9);
 
 	//Can insert into quadtree
@@ -69,8 +72,8 @@ void tests()
 	};
 
 	Shape * node_three_objects[2] = {
-		new Square(119,116,20,20),
-		new Square(165,108,20,20)
+		new Square(119,116,20),
+		new Square(165,108,20)
 	};
 
 	for (int i = 0; i<5; i++)
@@ -141,7 +144,8 @@ void tests()
 	}
 }
 
-/*int main()
+/*
+int main()
 {
 	tests();
 	int code = Assertions::getCode();
@@ -156,4 +160,5 @@ void tests()
 	cout << "All tests have passed. \n";
 	system("pause");
 	return 0;
-}*/
+}
+*/
